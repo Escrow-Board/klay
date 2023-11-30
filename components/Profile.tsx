@@ -13,10 +13,8 @@ import { ethers } from "ethers";
 import Swal from "sweetalert2";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import LogoImage from "../images/logo-full.png"
+import CovalentBalance from './CovalentBalance';
+
 
 export const Profile = ({ logOut }: any) => {
   const router = useRouter();
@@ -70,51 +68,31 @@ export const Profile = ({ logOut }: any) => {
   }, [allowedBalance, decimals, approveTokens]);
 
   return (
- 
-	<Navbar  bg="light" style={{marginTop:"27px",borderRadius:"10px",padding:"10px",border:"solid", borderColor:"#198754",}} className="justify-content-between mt-100 mb-5">
-	<Container>
-	  <Navbar.Brand href="#home">
-	  <Image
-            src={LogoImage}
-            alt={"escrow"}
-            width={"250px"}
-            height={"47px"}
-            
-          />
-
-	  </Navbar.Brand>
-	  <Nav className=" ">
-		<Nav.Link href="#home">
-			
-
-		<div className="d-flex float-end profile float-right">
-          <Image
+		<div className="d-flex  profile">
+          {/* <Image
             src={ensAvatar ?? `https://i.pravatar.cc/75?u=${signerAddress}`}
             alt={ensName ?? signerAddress}
             width={75}
             height={75}
             layout="fixed"
-          />
+          /> */}
           <div className="ml-2 profile-meta">
             <div>
-              <h6 className="d-flex align-items-center">
-                {ensName ?? collapseAddress(signerAddress ?? "")}
-                <button
-                  className="btn btn-danger btn-sm ms-3"
-                  onClick={() =>
-                    confirm("Are You Sure to Sign Out?") ? logOut() : null
-                  }
-                >
-                  Sign Out
-                </button>
-              </h6>
+              <p className="d-flex align-items-center">
+              <b>Address&nbsp;</b>  {ensName ?? collapseAddress(signerAddress ?? "")}
+              
+          </p>
+        
               <p>
                 <b className="bold">Total</b>{" "}
                 <span className="balance">
-                  {ethers.utils.formatUnits(balance ?? 0, decimals ?? 18)}
+              {ethers.utils.formatUnits(balance ?? 0, decimals ?? 18)} 
+              {/* <CovalentBalance></CovalentBalance> */}
                 </span>{" "}
                 {symbol}
-              </p>
+          </p>
+          
+        
               {!allowedBalanceLoading && (
                 <p className="d-flex align-items-center">
                   <span>
@@ -126,26 +104,34 @@ export const Profile = ({ logOut }: any) => {
                       )}
                     </span>{" "}
                     {symbol}
-                  </span>
-                  <button
-                    className="btn btn-success btn-sm ms-3"
-                    onClick={allowTokensPrompt}
-                  >
-                    Allow
-                  </button>
+              </span>
+              <span>
+</span>
                 </p>
-              )}
+            
+          ) }
+          <div style={ {
+            display: "flex", marginTop: "10px"}}>
+                <button
+                          className="btn btn-success btn-sm"
+                          onClick={allowTokensPrompt}
+                        >
+                          Allow More
+                </button>
+                <button
+                    className="btn btn-danger btn-sm ms-3"
+                    onClick={() =>
+                      confirm("Are You Sure to Sign Out?") ? logOut() : null
+                    }
+                  >
+                    Log Out
+              </button> 
+            </div>
             </div>
           </div>
         </div>
 
 
-
-		</Nav.Link>
-	 
-	  </Nav>
-	</Container>
-  </Navbar>
 
 		
  

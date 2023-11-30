@@ -8,16 +8,15 @@ const ETH: AddEthereumChainParameter['nativeCurrency'] = {
   decimals: 18,
 }
 
-const KLAY: AddEthereumChainParameter['nativeCurrency'] = {
-  name: 'Klayton',
-  symbol: 'KLAY',
-  decimals: 18,
-}
- 
-
 const MATIC: AddEthereumChainParameter['nativeCurrency'] = {
   name: 'Matic',
   symbol: 'MATIC',
+  decimals: 18,
+}
+
+const KLAY: AddEthereumChainParameter['nativeCurrency'] = {
+  name: 'Klayton',
+  symbol: 'KLAY',
   decimals: 18,
 }
 
@@ -188,6 +187,7 @@ export const CHAINS: { [chainId: number]: BasicChainInformation | ExtendedChainI
   4002: {
     urls: [
       'https://rpc.testnet.fantom.network',
+     
     ],
     name: 'Fantom testnet',
     nativeCurrency: {
@@ -208,7 +208,44 @@ export const CHAINS: { [chainId: number]: BasicChainInformation | ExtendedChainI
       decimals: 18
     }
   },
-  1001:{
+  59140: {
+    urls: [
+      'https://rpc.goerli.linea.build',
+    ],
+    name: 'Linea Testnet',
+    nativeCurrency: {
+      name: 'LineaTestnet',
+      symbol: 'ETH',
+      decimals: 18
+    },
+    blockExplorerUrls: ['https://explorer.goerli.linea.build'],
+  },
+  11155111: {
+    urls: [
+      'https://rpc.notadegen.com/sepolia',
+    ],
+    name: 'Sepolia Testnet',
+    nativeCurrency: {
+      name: 'SepoliaTestnet',
+      symbol: 'SepoliaETH',
+      decimals: 18
+    },
+    blockExplorerUrls: ['https://sepolia.etherscan.io/'],
+  },
+    1287: {
+    urls: [
+        'https://rpc.testnet.moonbeam.network',
+      
+    ],
+    name: 'Moonbase Alpha',
+    nativeCurrency: {
+      name: 'MoonbaseAlpha',
+      symbol: 'DEV',
+      decimals: 18
+    },
+    blockExplorerUrls: ['https://moonbase.moonscan.io'],
+  },
+  1001: {
     urls: [
       'https://public-en-baobab.klaytn.net',
     ],
@@ -221,7 +258,6 @@ export const CHAINS: { [chainId: number]: BasicChainInformation | ExtendedChainI
     blockExplorerUrls: ['https://klayton.com'],
   },
   
-  // https://public-en-baobab.klaytn.net
 }
 
 export const URLS: { [chainId: number]: string[] } = Object.keys(CHAINS).reduce<{ [chainId: number]: string[] }>(

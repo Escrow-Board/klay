@@ -22,6 +22,8 @@ import { CoinbaseWallet } from "@web3-react/coinbase-wallet";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import Script from "next/script";
+import NavBarComponant from "../components/NavBarComponant";
+
 
 const connectors: [
 	MetaMask | WalletConnect | CoinbaseWallet,
@@ -37,6 +39,7 @@ const queryClient = new QueryClient();
 export default function MyApp({ Component, pageProps }: AppProps) {
 	return (
 		<>
+
 			<Head>
 				<meta
 					name="viewport"

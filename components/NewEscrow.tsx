@@ -1,16 +1,16 @@
+import { ethers } from "ethers";
 import { useEffect, useMemo, useState } from "react";
 import { Button, Form, InputGroup, Modal } from "react-bootstrap";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useDecimalsQuery, useStoreEscrowMutation, useSymbolQuery } from "../lib/queries";
 import { NewEscrowInputs } from "../types/general";
-import { useRouter } from 'next/router'
 
 export const NewEscrow = ({ children, className }: any) => {
-	const router = useRouter()
 	const minimumEscrow = process.env.NEXT_PUBLIC_MINIMUM_ESCROW
 		? Number(process.env.NEXT_PUBLIC_MINIMUM_ESCROW)
 		: 0;
 
+	const { data: decimals } = useDecimalsQuery()
 	const { data: symbol } = useSymbolQuery()
 		
 	const { mutate: mutateStoreEscrow } = useStoreEscrowMutation()
@@ -67,10 +67,7 @@ export const NewEscrow = ({ children, className }: any) => {
 		<>
 			<button
 				className={`btn btn-warning ${className}`}
-				onClick={() => {
-					router.push('/create');
-					// setNewEscrowModal(true)
-				}}
+				onClick={() => setNewEscrowModal(true)}
 			>
 				{children??'New Escrow'}
 			</button>
@@ -81,7 +78,7 @@ export const NewEscrow = ({ children, className }: any) => {
 			>
 				<Form onSubmit={handleSubmit(onEscrowSubmit)}>
 					<Modal.Header closeButton>
-						<Modal.Title>New Escrow</Modal.Title>
+						<Modal.Title>Create New Escrow</Modal.Title>
 					</Modal.Header>
 					<Modal.Body>
 						<Form.Group className="mb-3" controlId="contractTitle">
@@ -178,7 +175,7 @@ export const NewEscrow = ({ children, className }: any) => {
 						>
 							Close
 						</Button>
-						<Button variant="primary" type="submit">
+						<Button variant="success" type="submit">
 							Submit
 						</Button>
 					</Modal.Footer>

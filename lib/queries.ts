@@ -14,7 +14,7 @@ import {
 	TransactionResponse,
 } from "@ethersproject/providers";
 import { BigNumber, ContractReceipt, ethers, Event } from "ethers";
-import { EscrowDoc, EscrowMeta, NewEscrowInputs } from "../types/general";
+import { EscrowDoc, EscrowMeta, NewEscrowInputs } from '../types/general';
 import { useWeb3Storage } from "../hooks/web3";
 import {
 	EscrowResponse,
@@ -69,7 +69,7 @@ export const useBalanceQuery = (options = {}) => {
 					}
 				)(),
 				{
-					loading: "Fetching balance...",
+					loading: "Fetching balance from covalent...",
 					success: "Fetched balance!",
 					error: (e: any) => {
 						console.log(e, tokenContract, "shanto")
@@ -298,7 +298,7 @@ export const useDeliverFundMutation = () => {
 				{
 					loading: "Delivering funds...",
 					success: "Delivered funds!",
-					error: (e: any) => `Error delivering funds: ${e.message}`,
+					error: (e: any) => `Error delivering fundsss: ${e.message}`,
 				}
 			);
 		},
@@ -379,17 +379,12 @@ export const useStoreEscrowMutation = () => {
 	const { escrowContract, signerAddress } = useContext(EscrowContext);
 	const web3StorageClient = useWeb3Storage();
 	const { data: decimals } = useDecimalsQuery()
+	const { mutateAsync: approveTokens } = useApproveTokensMutation();
 
 	return useMutation(
 		["storeEscrow", signerAddress],
 		(data: NewEscrowInputs) => {
-			const storeEscrow = async () =>
-			{
-				try {
-					
-				} catch (error) {
-					
-				}
+			const storeEscrow = async () => {
 				if (!escrowContract)
 					throw new Error("Escrow contract not found");
 
@@ -414,25 +409,34 @@ export const useStoreEscrowMutation = () => {
 				const expireInSeconds = Math.round(
 					new Date(data.expire_at).getTime() / 1000
 				);
+				
+				
 
-				let interaction : any;
-
-				try {
-					interaction = await escrowContract.newEscrow(
+				
+					const interaction = await escrowContract.newEscrow(
 					data.sellerAddress,
 					ethers.utils.parseUnits(`${data.amount}`, decimals ?? 18),
 					cid,
 					expireInSeconds,
-					{
-						gasLimit: 200000,
-					}
+					{gasLimit: 2000000}
+					
 				);
-				} catch (error) {
-					console.error("the error is  ===========>>>>>", error)
-				}
-				
+				// approveTokens(data.amount).catch((error) => {
+				// 		console.log(error.message);
+				// 	});
+				// const interaction = await escrowContract.newEscrow(
+				// 	data.sellerAddress,
+				// 	ethers.utils.parseUnits(`${data.amount}`, decimals??18),
+				// 	cid,
+				// 	expireInSeconds
+				// );
+
+								
+
+				console.log("data ==========>>>>>>>>>",data)
 
 				return interaction.wait();
+
 			};
 			return toastQuery<ContractReceipt>(storeEscrow(), {
 				loading: "Creating Escrow...Please don't close your browser",
